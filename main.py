@@ -7,15 +7,19 @@ def bonus_projects(project_id, project_name, final_mark, cursus):
             final_mark == cursus[project_id][project_name] or \
             project_name not in cursus[project_id].keys()
 
-margin = [
-        "ft_service",
-        "ft_server",
-        "netwhat"
-]
+def count_projects(response, cursus):
+    max_marked = 0
+    for project in response:
+        if not any(exp in project['project']['name'] for exp in ["Exam", "Rush"]) and project['project']['name'] not in margin and \
+                project['cursus_ids'] and (project['cursus_ids'][0] not in cursus.keys() or \
+                bonus_projects(project['cursus_ids'][0], project['project']['name'], project['final_mark'], cursus)):
+            print(f"{'Project ' + project['project']['name'] + ' final_mark mark: ':<45}", project['final_mark'])
+            max_marked += 1
+    print ("\r\nProject with the maximum mark:", max_marked)
 
-"""
-Cursus 9 bonus are not verified
-"""
+margin = [
+]
+#All projects with bonus points organized by its cursus id
 cursus = {
     21: {
             "Libft": 125,
@@ -38,11 +42,6 @@ cursus = {
             "webserv": 125,
             "libasm": 115
         },
-    9: {
-        "C Piscine Rush 00": 120,
-        "C Piscine Rush 01": 125,
-        "C Piscine Rush 02": 130
-        }
     }
 
 login = input("Insert an user login: ")
@@ -52,12 +51,10 @@ while len(login) == 0:
 payload = {
         "range[final_mark]": "100,130"
 }
-max_marked = 0
-response = ic.pages_threaded("users/" + login + "/projects_users", params=payload)
-for project in response:
-    if "Exam" not in project['project']['name'] and project['project']['name'] not in margin and \
-            (project['cursus_ids'][0] not in cursus.keys() or \
-            bonus_projects(project['cursus_ids'][0], project['project']['name'], project['final_mark'], cursus)):
-        print(f"{'Project ' + project['project']['name'] + ' final_mark mark: ':<45}", project['final_mark']);
-        max_marked += 1
-print ("Project with the maximum mark:", max_marked);
+try:
+    response = ic.pages("users/" + login + "/projects_users", params=payload)
+except ValueError as e:
+    print("Error in request:")
+    print(e)
+else:
+    count_projects(response, cursus)
