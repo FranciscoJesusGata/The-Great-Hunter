@@ -1,10 +1,13 @@
 #!/bin/bash
-touch apilib/__init__.py
 if [ ! -f apilib/ ]; then
 	git submodule init
 	git submodule update
 fi
+touch apilib/__init__.py
 pip install -q -r apilib/requirements.txt
+if [ $? -ne 0 ]; then
+	exit $?
+fi
 if [ ! -f apilib/config.yml ]; then
 	echo "Api credentials not set."
 	echo "Before continue go to your API apps page on the intra and copy the uid and secret."
