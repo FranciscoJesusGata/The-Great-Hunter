@@ -10,9 +10,10 @@ def bonus_projects(project_id, project_name, final_mark, cursus):
 def count_projects(response, cursus):
     max_marked = 0
     for project in response:
-        if not any(exp in project['project']['name'] for exp in ["Exam", "Rush"]) and project['project']['name'] not in margin and \
-                project['cursus_ids'] and (project['cursus_ids'][0] not in cursus.keys() or \
-                bonus_projects(project['cursus_ids'][0], project['project']['name'], project['final_mark'], cursus)):
+        if not any(exp in project['project']['name'] for exp in ["Exam", "Rush"]) and project['project']['name'] not in margin \
+            and ( not project['cursus_ids'] \
+            or ( project['cursus_ids'][0] not in cursus.keys() \
+            or bonus_projects(project['cursus_ids'][0], project['project']['name'], project['final_mark'], cursus) ) ):
             print(f"{'Project ' + project['project']['name'] + ' final_mark mark: ':<45}", project['final_mark'])
             max_marked += 1
     print ("\r\nProject with the maximum mark:", max_marked)
