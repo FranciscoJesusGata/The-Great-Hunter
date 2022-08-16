@@ -21,7 +21,7 @@ This script already gets and configures the git submodules, and install the requ
 
 If the `config.yml` file is not created the script will create it for you, it will ask you for your `UID` and `Secret` for the API. To get them just sign-in in the 42 intranet > settings > API.
 
-If you already register an APP just access to the app page in Your Applications section. If not you can see how to register a new app [here](https://api.intra.42.fr/apidoc/guides/getting_started).
+If you already registered an APP just access to the app page in Your Applications section. If not, you can see how to register a new app [here](https://api.intra.42.fr/apidoc/guides/getting_started).
 
 Then, just copy the `UID` and press `enter` and do the same for the `Secret`.
 
