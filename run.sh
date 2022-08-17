@@ -4,7 +4,7 @@ if [ ! -f apilib/ ]; then
 	git submodule update
 fi
 touch apilib/__init__.py
-pip install -q -r apilib/requirements.txt
+pip3 install -q -r apilib/requirements.txt
 if [ $? -ne 0 ]; then
 	exit $?
 fi
