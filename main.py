@@ -18,9 +18,11 @@ def count_projects(response, cursus):
             max_marked += 1
     print ("\r\nProject with the maximum mark:", max_marked)
 
+# Use this list to margin certain projects by its name
 margin = [
 ]
-#All projects with bonus points organized by its cursus id
+
+# All projects with bonus points organized by its cursus id
 cursus = {
     21: {
             "Libft": 125,
@@ -42,20 +44,22 @@ cursus = {
             "ft_irc": 125,
             "webserv": 125,
             "libasm": 115
-        },
-    }
+    },
+}
 
-login = input("Insert an user login: ")
-while len(login) == 0:
-    print("You can't left this space blank")
-    login = input("Insert an user login: ")
 payload = {
         "range[final_mark]": "100,130"
 }
-try:
-    response = ic.pages("users/" + login + "/projects_users", params=payload)
-except ValueError as e:
-    print("Error in request:")
-    print(e)
-else:
-    count_projects(response, cursus)
+
+login = input("Insert an user login (or \"exit\" to end the program): ")
+while login != "exit":
+    if len(login) == 0:
+        print("You can't left this space blank")
+        continue
+    try:
+            response = ic.pages("users/" + login + "/projects_users", params=payload)
+    except ValueError as e:
+        print("Error in request:")
+        print(e)
+    else:
+        count_projects(response, cursus)
