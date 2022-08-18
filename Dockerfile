@@ -1,9 +1,10 @@
 FROM python:3.9-slim
 
-RUN apt-get update && apt-get install git -y
-
 WORKDIR /app/
 
 ADD . /app/
 
-ENTRYPOINT ["/app/run.sh"]
+RUN touch apilib/__init__.py ; \
+	pip3 install -q -r apilib/requirements.txt
+
+ENTRYPOINT ["python3", "main.py"]
