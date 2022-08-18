@@ -63,3 +63,4 @@ while login != "exit":
         print(e)
     else:
         count_projects(response, cursus)
+    login = input("Insert an user login (or \"exit\" to end the program): ")
