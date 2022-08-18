@@ -29,4 +29,4 @@ if [ ! -f apilib/config.yml ]; then
 EOF
 fi
 echo "Running script..."
-python3 main.py
+exec python3 main.py
